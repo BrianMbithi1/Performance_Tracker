@@ -1,4 +1,3 @@
-// K/D ratio rounded to 2 decimals. With 0 deaths, K/D equals the kills.
 export function kd(kills, deaths) {
   if (deaths === 0) return kills;
   return Math.round((kills / deaths) * 100) / 100;
@@ -23,7 +22,6 @@ export function getSummary(matches) {
   };
 }
 
-// One point per day (oldest first) for the K/D line chart.
 export function kdByDay(matches) {
   const days = {};
   for (const m of matches) {
@@ -36,7 +34,6 @@ export function kdByDay(matches) {
     .map((date) => ({ date, kd: kd(days[date].kills, days[date].deaths) }));
 }
 
-// K/D for each mode, map or weapon, for the bar chart.
 export function kdBy(matches, field) {
   const groups = {};
   for (const m of matches) {

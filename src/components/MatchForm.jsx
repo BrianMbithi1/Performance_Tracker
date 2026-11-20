@@ -5,7 +5,6 @@ import { kd } from '../stats';
 const today = () => new Date().toISOString().slice(0, 10);
 const EMPTY = { kills: '', deaths: '', assists: '', mode: '', map: '', weapon: '', played_on: today() };
 
-// Returns an object like { kills: 'Kills is required.' }. Empty object = valid.
 export function validate(values) {
   const errors = {};
   for (const field of ['kills', 'deaths', 'assists']) {
@@ -23,7 +22,6 @@ export function validate(values) {
   return errors;
 }
 
-// Used for both "Log match" and "Edit match". The page decides what onSubmit does.
 export default function MatchForm({ initialValues, onSubmit, submitLabel = 'Save match' }) {
   const [values, setValues] = useState({ ...EMPTY, ...initialValues });
   const [errors, setErrors] = useState({});
@@ -41,7 +39,7 @@ export default function MatchForm({ initialValues, onSubmit, submitLabel = 'Save
 
     const firstError = Object.keys(found)[0];
     if (firstError) {
-      formRef.current.elements[firstError].focus(); // jump to the first problem
+      formRef.current.elements[firstError].focus();
       return;
     }
 
@@ -78,7 +76,6 @@ export default function MatchForm({ initialValues, onSubmit, submitLabel = 'Save
   );
 }
 
-// A labelled input or select with its error message underneath.
 function Field({ label, name, type = 'text', options, values, errors, onChange }) {
   const id = `field-${name}`;
   const props = {

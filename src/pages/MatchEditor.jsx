@@ -4,7 +4,6 @@ import { addMatch, getMatch, updateMatch } from '../api';
 import MatchForm from '../components/MatchForm';
 import Message from '../components/Message';
 
-// Handles both /matches/new and /matches/:id/edit.
 export default function MatchEditor() {
   const { id } = useParams();
   const isEdit = Boolean(id);

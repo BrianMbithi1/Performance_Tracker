@@ -13,7 +13,6 @@ export default function Dashboard() {
   const [filters, setFilters] = useState(NO_FILTERS);
   const [groupBy, setGroupBy] = useState('mode');
 
-  // Only recalculate when the matches or filters change.
   const shown = useMemo(() => filterMatches(matches, filters), [matches, filters]);
   const summary = getSummary(shown);
 

@@ -35,7 +35,6 @@ export default function Auth({ mode }) {
         navigate('/dashboard');
       } else {
         const data = await register(email, password);
-        // If email confirmation is on, Supabase gives no session until the link is clicked.
         if (data.session) navigate('/dashboard');
         else navigate('/login', { state: { notice: 'Account created! Check your email to confirm it, then log in.' } });
       }

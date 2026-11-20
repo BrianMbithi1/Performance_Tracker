@@ -9,9 +9,9 @@ describe('dashboard', () => {
   it('shows the stat cards and charts', async () => {
     mockQuery({ data: sampleMatches, error: null });
     renderApp('/dashboard');
-    expect(await screen.findByText('1.76')).toBeInTheDocument(); // K/D
-    expect(screen.getByText('21.7')).toBeInTheDocument(); // average kills
-    expect(screen.getByText('30 kills')).toBeInTheDocument(); // best match
+    expect(await screen.findByText('1.76')).toBeInTheDocument();
+    expect(screen.getByText('21.7')).toBeInTheDocument();
+    expect(screen.getByText('30 kills')).toBeInTheDocument();
     expect(screen.getByRole('img', { name: /over time/i })).toBeInTheDocument();
   });
 

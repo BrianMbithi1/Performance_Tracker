@@ -2,7 +2,6 @@ import { MODES, WEAPONS } from '../data';
 
 export const NO_FILTERS = { mode: '', weapon: '', from: '', to: '' };
 
-// A controlled component: the parent owns the filter values and passes them in.
 export default function Filters({ filters, onChange }) {
   function update(e) {
     onChange({ ...filters, [e.target.name]: e.target.value });

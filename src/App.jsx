@@ -6,7 +6,6 @@ import Dashboard from './pages/Dashboard';
 import Matches from './pages/Matches';
 import MatchEditor from './pages/MatchEditor';
 
-// Wraps a page with the login check, the navbar and the page container.
 function Private({ children }) {
   return (
     <ProtectedRoute>

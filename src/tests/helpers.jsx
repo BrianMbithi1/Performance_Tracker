@@ -7,7 +7,6 @@ import App from '../App';
 
 export const testUser = { id: 'user-1', email: 'player@example.com' };
 
-// Pretend a player is logged in (or not). Login and logout also update the fake session.
 export function setUser(user) {
   let listener = () => {};
   supabase.auth.getSession.mockResolvedValue({ data: { session: user ? { user } : null } });

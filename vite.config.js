@@ -5,9 +5,6 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   plugins: [react(), tailwindcss()],
 
-  // The CODM API doesn't allow requests from other websites (no CORS headers),
-  // so during development Vite forwards /codm-api/... to it for us.
-  // vercel.json does the same job once the app is deployed.
   server: {
     proxy: {
       '/codm-api': {
