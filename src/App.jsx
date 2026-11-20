@@ -2,6 +2,7 @@ import { Link, Navigate, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import Auth from './pages/Auth';
+import Dashboard from './pages/Dashboard';
 import Matches from './pages/Matches';
 import MatchEditor from './pages/MatchEditor';
 
@@ -21,7 +22,7 @@ export default function App() {
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
       <Route path="/login" element={<Auth mode="login" />} />
       <Route path="/register" element={<Auth mode="register" />} />
-      <Route path="/dashboard" element={<Private><p>Dashboard coming soon</p></Private>} />
+      <Route path="/dashboard" element={<Private><Dashboard /></Private>} />
       <Route path="/matches" element={<Private><Matches /></Private>} />
       <Route path="/matches/new" element={<Private><MatchEditor /></Private>} />
       <Route path="/matches/:id/edit" element={<Private><MatchEditor /></Private>} />
