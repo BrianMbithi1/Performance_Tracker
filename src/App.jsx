@@ -1,9 +1,13 @@
+import { Navigate, Route, Routes } from 'react-router-dom';
+import Auth from './pages/Auth';
+
 export default function App() {
   return (
-    <main className="p-8 text-center">
-      <h1 className="text-3xl font-bold">
-        CODM <span className="text-accent">Tracker</span>
-      </h1>
-    </main>
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="/login" element={<Auth mode="login" />} />
+      <Route path="/register" element={<Auth mode="register" />} />
+      <Route path="/dashboard" element={<p className="p-8">Dashboard coming soon</p>} />
+    </Routes>
   );
 }
