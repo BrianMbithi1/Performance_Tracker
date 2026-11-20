@@ -6,6 +6,7 @@ import Filters, { NO_FILTERS } from '../components/Filters';
 import StatCard from '../components/StatCard';
 import { BreakdownChart, KdChart } from '../components/Charts';
 import Message from '../components/Message';
+import PlayerLookup from '../components/PlayerLookup';
 
 export default function Dashboard() {
   const { matches, loading, error } = useMatches();
@@ -69,6 +70,7 @@ export default function Dashboard() {
         </>
       )}
 
+      <PlayerLookup />
     </div>
   );
 }
