@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/codm-api/:path*", "destination": "https://callofdutymobile.vercel.app/:path*" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
