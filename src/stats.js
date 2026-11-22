@@ -1,55 +1,68 @@
+// K/D ratio rounded to 2 decimals. With 0 deaths, the K/D is just the kills.
 export function kd(kills, deaths) {
-  if (deaths === 0) return kills;
+  if (deaths === 0) {
+    return kills;
+  }
   return Math.round((kills / deaths) * 100) / 100;
 }
 
+// Totals for the stat cards.
 export function getSummary(matches) {
   let kills = 0;
   let deaths = 0;
   let best = null;
-  for (const m of matches) {
-    kills += m.kills;
-    deaths += m.deaths;
-    if (!best || m.kills > best.kills) best = m;
+
+  for (const match of matches) {
+    kills = kills + match.kills;
+    deaths = deaths + match.deaths;
+    if (best === null || match.kills > best.kills) {
+      best = match;
+    }
   }
-  return {
-    count: matches.length,
-    kills,
-    deaths,
-    kd: kd(kills, deaths),
-    avgKills: matches.length ? Math.round((kills / matches.length) * 10) / 10 : 0,
-    best,
-  };
+
+  let avgKills = 0;
+  if (matches.length > 0) {
+    avgKills = Math.round((kills / matches.length) * 10) / 10;
+  }
+
+  return { count: matches.length, kills, deaths, kd: kd(kills, deaths), avgKills, best };
 }
 
+// Adds up kills and deaths for each value of a field, e.g. each date or each mode.
+function totalsBy(matches, field) {
+  const totals = {};
+  for (const match of matches) {
+    const key = match[field];
+    if (!totals[key]) {
+      totals[key] = { kills: 0, deaths: 0 };
+    }
+    totals[key].kills = totals[key].kills + match.kills;
+    totals[key].deaths = totals[key].deaths + match.deaths;
+  }
+  return totals;
+}
+
+// One point per day, oldest first, for the line chart.
 export function kdByDay(matches) {
-  const days = {};
-  for (const m of matches) {
-    days[m.played_on] ??= { kills: 0, deaths: 0 };
-    days[m.played_on].kills += m.kills;
-    days[m.played_on].deaths += m.deaths;
-  }
-  return Object.keys(days)
-    .sort()
-    .map((date) => ({ date, kd: kd(days[date].kills, days[date].deaths) }));
+  const totals = totalsBy(matches, 'played_on');
+  const dates = Object.keys(totals).sort();
+  return dates.map((date) => ({ date: date, kd: kd(totals[date].kills, totals[date].deaths) }));
 }
 
+// K/D for each mode, map or weapon, for the bar chart.
 export function kdBy(matches, field) {
-  const groups = {};
-  for (const m of matches) {
-    groups[m[field]] ??= { kills: 0, deaths: 0 };
-    groups[m[field]].kills += m.kills;
-    groups[m[field]].deaths += m.deaths;
-  }
-  return Object.entries(groups).map(([name, g]) => ({ name, kd: kd(g.kills, g.deaths) }));
+  const totals = totalsBy(matches, field);
+  const names = Object.keys(totals);
+  return names.map((name) => ({ name: name, kd: kd(totals[name].kills, totals[name].deaths) }));
 }
 
-export function filterMatches(matches, { mode, weapon, from, to }) {
-  return matches.filter(
-    (m) =>
-      (!mode || m.mode === mode) &&
-      (!weapon || m.weapon === weapon) &&
-      (!from || m.played_on >= from) &&
-      (!to || m.played_on <= to),
-  );
+// Keeps only the matches that fit the chosen filters. Empty filters are ignored.
+export function filterMatches(matches, filters) {
+  return matches.filter((match) => {
+    if (filters.mode && match.mode !== filters.mode) return false;
+    if (filters.weapon && match.weapon !== filters.weapon) return false;
+    if (filters.from && match.played_on < filters.from) return false;
+    if (filters.to && match.played_on > filters.to) return false;
+    return true;
+  });
 }

@@ -35,7 +35,7 @@ export default function Navbar() {
           <NavLink to="/dashboard" className={linkClass} onClick={() => setOpen(false)}>Dashboard</NavLink>
           <NavLink to="/matches" end className={linkClass} onClick={() => setOpen(false)}>Matches</NavLink>
           <NavLink to="/matches/new" className={linkClass} onClick={() => setOpen(false)}>Log match</NavLink>
-          <span className="px-3 text-xs text-muted">{user?.email}</span>
+          <span className="px-3 text-xs text-muted">{user ? user.email : ''}</span>
           <button onClick={handleLogout} className="rounded border border-line px-3 py-1 text-sm hover:border-danger">
             Log out
           </button>

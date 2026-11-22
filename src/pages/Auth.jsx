@@ -22,6 +22,12 @@ export default function Auth({ mode }) {
 
   if (user) return <Navigate to="/dashboard" replace />;
 
+  // A message passed from another page, e.g. "You have been logged out."
+  const notice = location.state ? location.state.notice : null;
+
+  let buttonText = isLogin ? 'Log in' : 'Create account';
+  if (busy) buttonText = 'Please wait…';
+
   async function handleSubmit(e) {
     e.preventDefault();
     setError('');
@@ -59,7 +65,7 @@ export default function Auth({ mode }) {
       </h1>
 
       <div className="space-y-4 rounded-xl border border-line bg-panel p-6">
-        {location.state?.notice && <Message type="success">{location.state.notice}</Message>}
+        {notice && <Message type="success">{notice}</Message>}
         {error && <Message type="error">{error}</Message>}
 
         <button onClick={handleGoogle} className="w-full rounded-lg border border-line p-2 font-semibold hover:border-primary">
@@ -79,7 +85,7 @@ export default function Auth({ mode }) {
               className="w-full rounded-lg border border-line bg-night p-2" />
           </div>
           <button type="submit" disabled={busy} className="w-full rounded-lg bg-primary p-2 font-semibold text-white disabled:opacity-50">
-            {busy ? 'Please wait…' : isLogin ? 'Log in' : 'Create account'}
+            {buttonText}
           </button>
         </form>
       </div>
