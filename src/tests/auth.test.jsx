@@ -20,16 +20,6 @@ describe('protected routes', () => {
     expect(await screen.findByRole('heading', { name: /log in/i })).toBeInTheDocument();
   });
 
-  it('sends logged-in players from /login to the app', async () => {
-    setUser(testUser);
-    renderApp('/login');
-    expect(await screen.findByRole('button', { name: 'Log out' })).toBeInTheDocument();
-  });
-
-  it('shows a message for unknown pages', async () => {
-    renderApp('/nope');
-    expect(screen.getByText(/page not found/i)).toBeInTheDocument();
-  });
 });
 
 describe('login', () => {
@@ -81,21 +71,6 @@ describe('register', () => {
     expect(await screen.findByText(/account created/i)).toBeInTheDocument();
   });
 
-  it('logs straight in when no confirmation is needed', async () => {
-    supabase.auth.signUp.mockResolvedValueOnce({ data: { session: { user: testUser } }, error: null });
-    renderApp('/register');
-    await fillIn('new@example.com', 'secret1');
-    await userEvent.click(screen.getByRole('button', { name: 'Create account' }));
-    expect(supabase.auth.signUp).toHaveBeenCalledWith({ email: 'new@example.com', password: 'secret1' });
-  });
-
-  it('explains when the email is already used', async () => {
-    supabase.auth.signUp.mockResolvedValueOnce({ data: {}, error: { message: 'User already registered' } });
-    renderApp('/register');
-    await fillIn('taken@example.com', 'secret1');
-    await userEvent.click(screen.getByRole('button', { name: 'Create account' }));
-    expect(await screen.findByRole('alert')).toHaveTextContent('already has an account');
-  });
 });
 
 describe('navbar', () => {

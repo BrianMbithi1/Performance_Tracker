@@ -9,6 +9,7 @@ export default function Matches() {
   const { matches, setMatches, loading, error } = useMatches();
   const location = useLocation();
   const [deleteError, setDeleteError] = useState('');
+  const notice = location.state ? location.state.notice : null;
 
   async function handleDelete(match) {
     if (!window.confirm(`Delete the ${match.mode} match on ${match.played_on}?`)) return;
@@ -24,7 +25,7 @@ export default function Matches() {
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">Match history</h1>
 
-      {location.state?.notice && <Message type="success">{location.state.notice}</Message>}
+      {notice && <Message type="success">{notice}</Message>}
       {deleteError && <Message type="error">{deleteError}</Message>}
 
       {loading && <Message type="loading">Loading your matches…</Message>}

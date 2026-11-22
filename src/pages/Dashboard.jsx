@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMatches } from '../hooks/useMatches';
 import { filterMatches, getSummary, kdBy, kdByDay } from '../stats';
@@ -13,7 +13,7 @@ export default function Dashboard() {
   const [filters, setFilters] = useState(NO_FILTERS);
   const [groupBy, setGroupBy] = useState('mode');
 
-  const shown = useMemo(() => filterMatches(matches, filters), [matches, filters]);
+  const shown = filterMatches(matches, filters); // the matches that fit the filters
   const summary = getSummary(shown);
 
   if (loading) return <Message type="loading">Loading your matches…</Message>;

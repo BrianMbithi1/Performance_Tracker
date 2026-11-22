@@ -8,14 +8,21 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setUser(data.session?.user ?? null);
+    // 1. Check if someone is already logged in (e.g. after a page refresh).
+    async function checkSession() {
+      const { data } = await supabase.auth.getSession();
+      setUser(data.session ? data.session.user : null);
       setLoading(false);
+    }
+    checkSession();
+
+    // 2. Keep listening for log ins and log outs.
+    const listener = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session ? session.user : null);
     });
-    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-    return () => data.subscription.unsubscribe();
+
+    // 3. Stop listening when the app closes.
+    return () => listener.data.subscription.unsubscribe();
   }, []);
 
   async function register(email, password) {

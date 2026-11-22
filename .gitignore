@@ -1,4 +1,3 @@
-```text
 node_modules
 dist
 coverage
@@ -7,4 +6,3 @@ coverage
 .env.*.local
 .DS_Store
 *.log
-```
