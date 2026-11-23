@@ -3,7 +3,6 @@
 Log your Call of Duty: Mobile matches and see how you are improving.
 
 **Live app:** [performance-tracker-khaki.vercel.app](https://performance-tracker-khaki.vercel.app)
-**Github Pages:** https://brianmbithi1.github.io/Performance_Tracker/
 
 ## Features
 
